@@ -1,0 +1,72 @@
+@import '_variables.scss';
+
+@mixin btnStyle {
+    display: block;
+    background-image: linear-gradient(to top, $blueColor 0%, $btnColor 100%);
+    border-radius: 4px;
+    text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.21);
+    color: #ffffff;
+    font-weight: 400;
+    text-align: center;
+    border: none;
+    outline: none;
+    text-transform: uppercase;
+}
+
+@mixin btnHover {
+    &:hover {
+        background-image: linear-gradient(to top, $btnColor 0%, $blueColor 100%); 
+        outline: none;
+    }
+}
+
+@mixin sectLabel {
+    width: 112px;
+    height: 24px;
+    background-color: #000000;
+    color: #ffffff;
+    font-size: 11px;
+    font-weight: 100;
+    text-align: center;
+    text-transform: uppercase;
+    line-height: 24px;
+    margin: 0px auto;
+}
+
+@mixin sectHeader {
+    color: $textColor;
+    font-size: 38px;
+    font-weight: 700;
+    text-align: center;
+    text-transform: uppercase;
+    margin-top: 40px;
+}
+
+@mixin sectSubheader {
+    color: $textColor;
+    font-size: 17px;
+    font-weight: 400;
+    text-align: center;
+    margin-top: 20px;
+}
+
+@mixin linkAnimation {
+    &:after {
+        content: '';
+        display: block;
+        width: 0%;
+        height: 2px;
+        margin: 0 auto;
+        background-color: #fff;
+        transition: .5s all;
+    }
+
+    &:hover {
+        color: #fff;
+        text-decoration: none;
+
+        &:after {
+            width: 100%;
+        }
+    }
+}
