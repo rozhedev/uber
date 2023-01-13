@@ -1,5 +1,5 @@
 let project_folder = "dist";
-let source_folder = "src";
+let src_folder = "src";
 
 let path = {
     build: {
@@ -10,17 +10,17 @@ let path = {
         fonts: project_folder + "/fonts",
     },
     src: {
-        html: [source_folder + "/*.html", "!" + source_folder + "/_*.html"],
-        css: source_folder + "/scss/style.scss",
-        js: source_folder + "/js/script.js",
-        img: source_folder + "/img/**/*.{jpg,png,svg,gif,ico,webp}",
-        fonts: source_folder + "/fonts/*.ttf",
+        html: [src_folder + "/*.html", "!" + src_folder + "/_*.html"],
+        css: src_folder + "/scss/style.scss",
+        js: [src_folder + "/js/**/*.js", "!" + source_folder + "/js/**/_*.js "],
+        img: src_folder + "/img/**/*.{jpg,png,svg,gif,ico,webp}",
+        fonts: src_folder + "/fonts/*.ttf",
     },
     watch: {
-        html: source_folder + "/**/*.html",
-        css: source_folder + "/scss/**/*.scss",
-        js: source_folder + "/js/**/*.js",
-        img: source_folder + "/img/**/*.{jpg,png,svg,gif,ico,webp}",
+        html: src_folder + "/**/*.html",
+        css: src_folder + "/scss/**/*.scss",
+        js: src_folder + "/js/**/*.js",
+        img: src_folder + "/img/**/*.{jpg,png,svg,gif,ico,webp}",
     },
     clean: "./" + project_folder + "/"
 }
@@ -30,7 +30,7 @@ let { src, dest } = require('gulp'),
     browsersync = require('browser-sync').create(),
     fileinclude = require('gulp-file-include'),
     htmlmin = require('gulp-htmlmin'),
-    scss = require('gulp-sass'),
+    scss = require('gulp-sass')(require("dart-sass")),
     autoprefixer = require('gulp-autoprefixer'),
     group_media = require('gulp-group-css-media-queries'),
     clean_css = require('gulp-clean-css'),
@@ -54,6 +54,7 @@ function browserSync() {
 function html() {
     return src(path.src.html)
         .pipe(fileinclude())
+        .pipe(htmlmin())
         .pipe(dest(path.build.html))
         .pipe(browsersync.stream())
 }
@@ -62,7 +63,7 @@ function css() {
     return src(path.src.css)
         .pipe(
             scss({
-                outputStyle: "expanded"
+                outputStyle: "compressed" /* expanded */
             })
         )
         .pipe(
@@ -124,11 +125,11 @@ function fonts() {
 }
 
 gulp.task('otf2ttf', function () {
-    return src([source_folder + '/fonts/*.otf'])
+    return src([src_folder + '/fonts/*.otf'])
         .pipe(fonter({
             formats: ['ttf']
         }))
-        .pipe(dest(source_folder + '/fonts/'))
+        .pipe(dest(src_folder + '/fonts/'))
 })
 
 function watchFiles() {
